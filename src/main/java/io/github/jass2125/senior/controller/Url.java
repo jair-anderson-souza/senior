@@ -17,11 +17,11 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@SequenceGenerator(name = "url_sequence", schema = "url_sequence")
+@SequenceGenerator(name = "hibernate_sequence", initialValue = 1)
 @Builder
 public class Url implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "url_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hibernate_sequence")
     private Long id;
 
     private String currentUrl;

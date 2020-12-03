@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UrlService {
 
-
-
-
-
+    public String encoutUrl(String url) {
+        return "123";
+    }
 }
