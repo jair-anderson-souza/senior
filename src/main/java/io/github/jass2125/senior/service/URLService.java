@@ -50,6 +50,12 @@ public class URLService {
         return this.urlRepository.findByUrl(url);
     }
 
+    @Cacheable(cacheNames = "shortURLs", key = "#shortURL")
+    public Optional<Url> findByShortUrl(String shortURL) {
+        log.info("M=findByUrl, m=init find by short url, shorturl={}", shortURL);
+        return this.urlRepository.findByShortUrl(shortURL);
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public void save(Url uriSave) {
         log.info("M=save, m=init find by url, url={}", uriSave);
