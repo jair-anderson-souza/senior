@@ -1,5 +1,6 @@
-package io.github.jass2125.senior.controller;
+package io.github.jass2125.senior.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,10 @@ import java.time.LocalDate;
 @Entity
 @SequenceGenerator(name = "hibernate_sequence", initialValue = 1)
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Url implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hibernate_sequence")
     private Long id;
@@ -28,9 +32,8 @@ public class Url implements Serializable {
     private String newUrl;
     private LocalDate dateCreation;
 
-
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.dateCreation = LocalDate.now();
     }
 
