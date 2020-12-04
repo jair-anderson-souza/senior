@@ -28,13 +28,15 @@ public class Url implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hibernate_sequence")
     private Long id;
 
-    private String currentUrl;
-    private String newUrl;
+    private String url;
+    private String shortUrl;
     private LocalDate dateCreation;
 
     @PrePersist
     public void prePersist() {
         this.dateCreation = LocalDate.now();
     }
+
+
 
 }
