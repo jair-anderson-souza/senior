@@ -1,5 +1,6 @@
 package io.github.jass2125.senior.service;
 
+import io.github.jass2125.senior.controller.response.URLResponse;
 import io.github.jass2125.senior.domain.model.Url;
 import io.github.jass2125.senior.exceptions.UrlAlreadyExists;
 import io.github.jass2125.senior.repositories.URLRepository;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,20 +22,16 @@ public class URLService {
     private URLRepository urlRepository;
 
     @Autowired
-    private UrlShortener urlShortener;
-
-    public List<Url> findAll() {
-        return urlRepository.findAll();
-    }
+    private URLShortener urlShortener;
 
     //add tests
-    public String encoutUrl(String url) {
+    public URLResponse encoutUrl(String url) {
         log.info("M=encoutUrl, m=init encourt url, shortURL={}", url);
 
-        checkIfShortURLAlreadyExists(url);
+        checkIfURLAlreadyExists(url);
 
-        //adicionar logs
         String newUrl = this.urlShortener.encurtarUrl(url);
+
         Url uriSave = Url
                 .builder()
                 .url(url)
@@ -44,23 +40,24 @@ public class URLService {
 
         save(uriSave);
 
-        return newUrl;
+        return URLResponse.builder().url(newUrl).build();
     }
 
 
     @Cacheable(cacheNames = "URLs", key = "#url")
     public Optional<Url> findByUrl(String url) {
         log.info("M=findByUrl, m=init find by url, url={}", url);
-        return this.urlRepository.findByCurrentUrl(url);
+        return this.urlRepository.findByUrl(url);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void save(Url uriSave) {
+        log.info("M=save, m=init find by url, url={}", uriSave);
         this.urlRepository.save(uriSave);
     }
 
-    public void checkIfShortURLAlreadyExists(String url) {
-        log.info("M=checkIfShortURLAlreadyExists, m=init check if short URL already exists, url={}", url);
+    public void checkIfURLAlreadyExists(String url) {
+        log.info("M=checkIfShortURLAlreadyExists, m=init check if URL already exists, url={}", url);
         Optional<Url> urlSearched = findByUrl(url);
         if (urlSearched.isPresent()) {
             log.error("m=Url already exists, url={}", url);

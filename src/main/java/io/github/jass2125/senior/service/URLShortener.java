@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class UrlShortener {
+public class URLShortener {
 
 
     public String encurtarUrl(String url) {
